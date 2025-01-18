@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoJDBCImpl implements UserDao {
-    private User currentUser;
     public UserDaoJDBCImpl() {
-
     }
+
     @Override
     public void createUsersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users (id BIGINT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), lastName VARCHAR(50), age TINYINT)";
@@ -23,6 +22,7 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
     @Override
     public void dropUsersTable() {
         String sql = "DROP TABLE IF EXISTS users";
@@ -34,6 +34,7 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
     @Override
     public void saveUser(String name, String lastName, byte age) {
         String sql = "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)";
@@ -48,6 +49,7 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
     @Override
     public void removeUserById(long id) {
         String sql = "DELETE FROM users WHERE id = ?";
@@ -60,13 +62,14 @@ public class UserDaoJDBCImpl implements UserDao {
             e.printStackTrace();
         }
     }
+
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT id, name, lastName, age FROM users";
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)){
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
@@ -81,6 +84,7 @@ public class UserDaoJDBCImpl implements UserDao {
         System.out.println(users);
         return users;
     }
+
     @Override
     public void cleanUsersTable() {
         String sql = "TRUNCATE TABLE users";
